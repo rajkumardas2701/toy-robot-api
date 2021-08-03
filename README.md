@@ -1,12 +1,12 @@
 # Toy-Robot-API
 
-> This is an API provided as a challenge based on one of the connection on LinkedIn.<br>
-This App moves Robot on 5X5 surface ensuring it doesn't follow off the surface<br>
+> This is an app built using Rails API concept, provided as a challenge by one of my connection on LinkedIn.<br>
+This App moves Robot on 5X5 surface ensuring it doesn't follow off the board<br>
 
 
 ## Features
-1. You can place Robot on the 5X5 surface using place key and providing co-ordinates.
-2. you can also rotate Robot left and right or move one unit move in the direction robot is facing.
+1. You can place Robot on the 5X5 surface using PLACE key and providing co-ordinates.
+2. You can also rotate Robot left or right or move one unit move in the direction robot is facing.
 
 ## Built with
 1. Rails 6.1.4
@@ -38,11 +38,12 @@ Browse http://127.0.0.1:3000/ to validate if the API is accessible
 
 ## Instructions
 
-1. you can use Postman as a client to make a query in the format below,
+1. you can use Postman as a client to make a POST query in the format below,
     http://localhost:3000/api/update/:commands?commands=["place 0,1,NORTH", "MOVE"]
 2. When you use PLACE key, it ignores previous co-ordinates and places your robot to the specified co-ordinates.
 3. MOVE key will move your Robot by one unit in the direction it faces. In the example above, it is facing NORTH.
 4. You can also use REPORT key in the place of MOVE, which will provide co-ordinates and orientatio of the report.
+5. when you don't provide orientation like, NORTH in the example above, it defaults to NORTH.
 
 ## Authors
 
