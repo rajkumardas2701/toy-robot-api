@@ -99,8 +99,6 @@ class Robot < ApplicationRecord
       rescue NoMethodError
         new_facing = "NORTH"
       end
-      # new_facing = cod.split(",")[2].gsub(/\"/, '') !=  ? cod.split(",")[2].gsub(/\"/, '')
-                                                    # : "NORTH"
       if robo == nil
         out = Robot.create(x: new_x,
                       y: new_y,

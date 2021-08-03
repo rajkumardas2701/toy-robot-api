@@ -10,7 +10,6 @@ class Api::RobotsController < ApplicationController
       rb.decide_move(robot_params, @robot)
       render json: {
         location: rb.decide_move(robot_params, @robot)
-        # [Robot.first.x, Robot.first.y, Robot.first.facing]
       }
     else
       render json: {
