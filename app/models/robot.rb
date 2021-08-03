@@ -2,9 +2,6 @@ class Robot < ApplicationRecord
   validates :x, presence: true
   validates :y, presence: true
   validates :facing, presence: true
-
-  # orientation = ['WEST', 'NORTH', 'EAST', 'SOUTH']
-  # orientation = ["WEST", "NORTH", "EAST", "SOUTH"]
   
   def make_move(orient, out)
     case orient
@@ -49,7 +46,6 @@ class Robot < ApplicationRecord
     orientation = ["WEST", "NORTH", "EAST", "SOUTH"]
     i = orientation.index(orient)
     m = Robot.first
-    # byebug
     case move
     when "LEFT"
       if i == 0
@@ -79,6 +75,8 @@ class Robot < ApplicationRecord
       ]
     when "MOVE"
       out = make_move(orient, out)
+      m.x = out[0]
+      m.y = out[1]
       m.save
       return out
     else
@@ -86,24 +84,46 @@ class Robot < ApplicationRecord
     end
   end
 
-  def create_robot(params)
+  def decide_move(params, robo = nil)
     res = params[:commands].split(" ")
-    cod = params[:commands].split(" ")[1]
-    # move = params[:commands].split(" ")[2].gsub(/\"/, '').gsub(/]/, '')
-    # byebug
+    cod = Array.new
+    move = ""
+    new_facing = ""
     if res.length > 2
       move = params[:commands].split(" ")[2].gsub(/\"/, '').gsub(/]/, '')
-      out = Robot.create(x: cod.split(",")[0].to_i,
-                    y: cod.split(",")[1].to_i,
-                    facing: cod.split(",")[2].gsub(/\"/, '')
-      )
-      # byebug
-      return out = check_move(move, cod.split(",")[2].gsub(/\"/, ''), out)
-      # return out
-      # byebug
+      cod = params[:commands].split(" ")[1]
+      new_x = cod.split(",")[0].to_i
+      new_y = cod.split(",")[1].to_i
+      begin
+        new_facing = cod.split(",")[2].gsub(/\"/, '')
+      rescue NoMethodError
+        new_facing = "NORTH"
+      end
+      # new_facing = cod.split(",")[2].gsub(/\"/, '') !=  ? cod.split(",")[2].gsub(/\"/, '')
+                                                    # : "NORTH"
+      if robo == nil
+        out = Robot.create(x: new_x,
+                      y: new_y,
+                      facing: new_facing
+        )
+      else
+        robo.x = new_x
+        robo.y = new_y
+        robo.facing = new_facing
+        robo.save
+        out = robo
+      end
+    else
+      move = params[:commands].split(" ")[1].gsub(/\"/, '').gsub(/]/, '')
+      cod = params[:commands].split(" ")[0]
+      begin
+        robo.facing = cod.split(",")[2].gsub(/\"/, '')
+      rescue NoMethodError
+        new_facing = robo.facing
+      end
+      out = robo
     end
-    return "you didn't place Robot on the table yet. Use PLACE keyword"
+    return robo == nil ? "you didn't place Robot on the table yet. Use PLACE keyword"
+                       : check_move(move, new_facing, out)
   end
 end
-
-# params[:commands].split(" ")[1].split(",")[2].include?("North")

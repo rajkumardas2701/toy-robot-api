@@ -7,16 +7,14 @@ class Api::RobotsController < ApplicationController
   def update
     rb = Robot.new
     if @robot
-      robot_params
-      # byebug
-      # rb.check_move(robot_params)
+      rb.decide_move(robot_params, @robot)
       render json: {
-        location: [Robot.first.x, Robot.first.y, Robot.first.facing]
+        location: rb.decide_move(robot_params, @robot)
+        # [Robot.first.x, Robot.first.y, Robot.first.facing]
       }
     else
-      # rb.create_robot(robot_params)
       render json: {
-        location: rb.create_robot(robot_params)
+        location: rb.decide_move(robot_params)
       }
     end
   end
