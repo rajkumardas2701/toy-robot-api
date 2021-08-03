@@ -79,6 +79,8 @@ class Robot < ApplicationRecord
       m.y = out[1]
       m.save
       out
+    when 'REPORT'
+      out.attributes.except("id", "created_at", "updated_at")
     else
       'Invalid parameters'
     end
