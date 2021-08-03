@@ -1,8 +1,6 @@
 class Api::RobotsController < ApplicationController
   before_action :set_robot
-  def create
-
-  end
+  def create; end
 
   def update
     rb = Robot.new
